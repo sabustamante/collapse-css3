@@ -1,0 +1,79 @@
+$collapse-header-padding:       10px;
+$collapse-header-line-height:   20px;
+$collapse-body-padding:         10px;
+
+
+// Collapse
+// -----------------------------------------------------------------------------
+.collapse {
+    // Input
+    // -------------------------------------------------------------------------
+    &-input {
+        display: none;
+    }
+
+    // Header
+    // -------------------------------------------------------------------------
+    &-header {
+        > label {
+            display: block;
+            cursor: pointer;
+            background-color: #ddd;
+            padding: $collapse-header-padding;
+            line-height: $collapse-header-line-height;
+            border: 1px solid #ccc;
+
+            // Ellipsis
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+
+    // Body
+    // -------------------------------------------------------------------------
+    &-body {
+        opacity: 1;
+        max-height: 9999px;
+
+        > .wrapper {
+            background-color: #eee;
+            border: 1px solid #ccc;
+            padding: $collapse-body-padding;
+        }
+    }
+
+    // Actions
+    // -------------------------------------------------------------------------
+    &-input:checked + &-header {
+        > label {
+            background-color: #ccc
+        }
+    }
+    &-input:not(:checked) + &-header + &-body {
+        max-height: 0;
+        overflow: hidden;
+    }
+}
+
+// Tabs
+// -----------------------------------------------------------------------------
+@media (min-width: 768px) {
+    .tabs {
+        position: relative;
+        padding-top: $collapse-header-line-height + ($collapse-header-padding * 2);
+
+        .collapse-header {
+            top: 0;
+            position: absolute;
+        }
+        @for $i from 2 through 6 {
+            @for $j from 1 through $i {
+                &-#{$i} > .collapse:nth-child(#{$j}) .collapse-header {
+                    left: (100% / $i) * ($j - 1);
+                    width: (100% / $i);
+                }
+            }
+        }
+    }
+}
